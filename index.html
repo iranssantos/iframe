@@ -31,14 +31,14 @@
             height: 100%;
             justify-content: center;
             align-items: center;
-            font-size: 1.5rem;
+            font-size: 4vw; /* Ajusta o tamanho da fonte conforme a largura da tela */
             background-color: #ffffff;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
             position: absolute;
             top: 0;
             left: 0;
-            padding: 20px;
+            padding: 2vw; /* Ajusta o padding conforme a tela */
             box-sizing: border-box;
             text-align: center;
         }
@@ -50,13 +50,13 @@
 
         .controls {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 2vw;
+            margin-top: 2vw;
         }
 
         button {
-            padding: 10px 20px;
-            font-size: 1rem;
+            padding: 1vw 2vw;
+            font-size: 1.5vw; /* Ajusta o tamanho da fonte do botão */
             cursor: pointer;
             background-color: #007bff;
             color: white;
@@ -75,8 +75,8 @@
         }
 
         .indicator {
-            width: 12px;
-            height: 12px;
+            width: 1vw;
+            height: 1vw;
             background-color: #ccc;
             border-radius: 50%;
             cursor: pointer;
@@ -89,7 +89,12 @@
         /* Responsividade para o tamanho da tela */
         @media (max-width: 768px) {
             .slide {
-                font-size: 1rem; /* Reduz o tamanho da fonte em telas pequenas */
+                font-size: 5vw; /* Reduz o tamanho da fonte em telas pequenas */
+                padding: 5vw;  /* Ajusta o padding */
+            }
+
+            button {
+                font-size: 4vw; /* Ajusta o tamanho do botão em telas pequenas */
             }
         }
     </style>
