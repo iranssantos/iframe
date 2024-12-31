@@ -30,7 +30,7 @@
             left: 0;
             padding: 2vw;
             box-sizing: border-box;
-            text-align: center; /* You can keep text-align: center; for centered content */
+            text-align: center;
         }
 
         .slide.active {
@@ -45,15 +45,12 @@
             transform: translateX(-50%);
             display: flex;
             gap: 2vw;
-            font-size: 2vw;
         }
 
         button {
-            padding: 1vw 2vw;
-            font-size: 1.5vw;
+            padding: 1vw;
             cursor: pointer;
             background-color: #000000;
-            color: white;
             border: none;
             border-radius: 0.5vw;
             transition: background-color 0.3s;
@@ -61,6 +58,17 @@
 
         button:hover {
             background-color: #0056b3;
+        }
+
+        .icon {
+            width: 2vw;
+            height: 2vw;
+            fill: white; /* Cor dos ícones */
+            transition: transform 0.3s;
+        }
+
+        button:hover .icon {
+            transform: scale(1.2); /* Aumenta o tamanho ao passar o mouse */
         }
 
         .indicators {
@@ -87,9 +95,9 @@
 
         /* Responsividade para telas menores */
         @media (max-width: 600px) {
-            .controls button {
-                padding: 1vw 1.5vw;
-                font-size: 1.2vw;
+            .icon {
+                width: 5vw;
+                height: 5vw;
             }
 
             .indicators .indicator {
@@ -107,6 +115,11 @@
         }
 
         @media (max-width: 400px) {
+            .icon {
+                width: 7vw;
+                height: 7vw;
+            }
+
             .slide {
                 font-size: 7vw;
             }
@@ -122,9 +135,27 @@
     <div id="slidesContainer"></div>
     <div class="indicators"></div>
     <div class="controls">
-        <button id="prev">Anterior</button>
-        <button id="playPause">Play</button>
-        <button id="next">Próximo</button>
+        <button id="prev">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M11 18L5 12L11 6V18Z" fill="currentColor"/>
+                <path d="M19 18L13 12L19 6V18Z" fill="currentColor"/>
+            </svg>
+        </button>
+        <button id="playPause">
+            <svg id="playIcon" class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
+            </svg>
+            <svg id="pauseIcon" class="icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+                <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+            </svg>
+        </button>
+        <button id="next">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M13 18L19 12L13 6V18Z" fill="currentColor"/>
+                <path d="M5 18L11 12L5 6V18Z" fill="currentColor"/>
+            </svg>
+        </button>
     </div>
     <audio id="audio"></audio>
 
@@ -136,6 +167,8 @@
             const playPauseButton = document.getElementById('playPause');
             const prevButton = document.getElementById('prev');
             const nextButton = document.getElementById('next');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
             let slideData = [];
             let currentSlide = 0;
             let isPlaying = false;
@@ -179,10 +212,12 @@
             function playPauseAudio() {
                 if (isPlaying) {
                     audio.pause();
-                    playPauseButton.textContent = 'Play';
+                    playIcon.style.display = 'block';
+                    pauseIcon.style.display = 'none';
                 } else {
                     audio.play();
-                    playPauseButton.textContent = 'Pause';
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
                 }
                 isPlaying = !isPlaying;
             }
