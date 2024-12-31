@@ -147,6 +147,18 @@
             let currentSlide = 0;
             let isPlaying = false;
 
+            // Definir quais slides terão indicadores
+            const slidesComIndicadores = [0, 2]; // Apenas o slide 1 e 3 terão indicadores
+
+            / Gerar indicadores apenas para os slides selecionados
+            slidesComIndicadores.forEach(index => {
+                const indicator = document.createElement('span');
+                indicator.classList.add('indicator');
+                indicator.setAttribute('data-slide', index);
+                if (index === currentSlide) indicator.classList.add('active');
+                indicatorsContainer.appendChild(indicator);
+            });
+            
             // Função para renderizar os slides
             function renderSlides(data) {
                 slidesContainer.innerHTML = '';
