@@ -10,20 +10,12 @@
             margin: 0;
             font-family: 'DejaVu Sans Mono', consolas;
             position: relative;
+            overflow: hidden;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: #f0f0f0;
-            overflow: hidden;
-        }
-
-        #slidesContainer {
-            position: relative;
-            width: 100%;
-            height: 100%; /* Ajusta a altura para se ajustar à tela */
-            max-width: 100%;
         }
 
         .slide {
@@ -32,14 +24,14 @@
             height: 100%;
             justify-content: center;
             align-items: center;
-            font-size: 5vw; /* Ajusta o tamanho da fonte conforme a largura da tela */
+            font-size: 5vw;
             background-color: #ffffff;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 1s ease-in-out;
             position: absolute;
             top: 0;
             left: 0;
-            padding: 5vw; /* Ajusta o padding conforme a tela */
+            padding: 20px;
             box-sizing: border-box;
             text-align: center;
         }
@@ -51,20 +43,19 @@
 
         .controls {
             position: fixed;
-            display: flex;
             bottom: 10%;
             left: 50%;
             transform: translateX(-50%);
-            gap: 2vw;
-            margin-top: 2vw;
+            display: flex;
+            gap: 10px;
             font-size: 1rem;
         }
 
         button {
-            padding: 2vw 4vw;
-            font-size: 3vw; /* Ajusta o tamanho da fonte do botão */
+            padding: 10px 15px;
+            font-size: 1em;
             cursor: pointer;
-            background-color: #007bff;
+            background-color: #000000;
             color: white;
             border: none;
             border-radius: 5px;
@@ -82,70 +73,49 @@
             transform: translateX(-50%);
             display: flex;
             gap: 5px;
-            margin-top: 10px;
         }
 
         .indicator {
             display: inline-block;
-            width: 2vw;
-            height: 2vw;
+            width: 10px;
+            height: 10px;
             background-color: #ccc;
             border-radius: 50%;
             cursor: pointer;
         }
 
         .indicator.active {
-            background-color: #007bff;
+            background-color: #333;
         }
 
-        /* Responsividade para o tamanho da tela */
-        @media (max-width: 768px) {
-            body {
-                font-size: 4vw; /* Ajusta o tamanho da fonte geral */
+        /* Responsividade para telas menores */
+        @media (max-width: 600px) {
+            .controls button {
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+
+            .indicators .indicator {
+                width: 8px;
+                height: 8px;
             }
 
             .slide {
-                font-size: 6vw; /* Reduz o tamanho da fonte em telas pequenas */
-                padding: 6vw;  /* Ajusta o padding */
+                font-size: 6vw;
             }
 
             .slide p {
                 font-size: 4vw;
             }
-
-            .controls button {
-                font-size: 5vw; /* Ajusta o tamanho do botão em telas pequenas */
-                padding: 3vw 6vw;
-            }
-
-            .indicators.indicator {
-                width: 4vw;
-                height: 4vw;
-            }
         }
 
-        @media (max-width: 480px) {
-            body {
-                font-size: 5vw; /* Ajusta ainda mais para telas muito pequenas */
-            }
-
+        @media (max-width: 400px) {
             .slide {
-                font-size: 8vw;
-                padding: 8vw;
+                font-size: 7vw;
             }
 
             .slide p {
                 font-size: 5vw;
-            }
-
-            button {
-                font-size: 6vw;
-                padding: 4vw 8vw;
-            }
-
-            .indicator {
-                width: 5vw;
-                height: 5vw;
             }
         }
     </style>
