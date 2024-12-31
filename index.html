@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apresentação Sincronizada</title>
     <style>
+        /* Estilos para os slides e controles */
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
@@ -96,6 +97,7 @@
     <audio id="audio"></audio>
 
     <script>
+        // Lógica de controle da apresentação
         document.addEventListener('DOMContentLoaded', () => {
             const slidesContainer = document.getElementById('slidesContainer');
             const indicatorsContainer = document.querySelector('.indicators');
@@ -107,6 +109,7 @@
             let currentSlide = 0;
             let isPlaying = false;
 
+            // Função para renderizar os slides
             function renderSlides(data) {
                 slidesContainer.innerHTML = '';
                 indicatorsContainer.innerHTML = '';
@@ -131,6 +134,7 @@
                 showSlide(currentSlide);
             }
 
+            // Função para exibir o slide
             function showSlide(index) {
                 const slides = document.querySelectorAll('.slide');
                 const indicators = document.querySelectorAll('.indicator');
@@ -149,6 +153,7 @@
                 }
             }
 
+            // Função para controlar play/pause do áudio
             function playPauseAudio() {
                 if (isPlaying) {
                     audio.pause();
@@ -160,18 +165,21 @@
                 isPlaying = !isPlaying;
             }
 
+            // Função para avançar para o próximo slide
             function nextSlide() {
                 if (currentSlide < slideData.length - 1) {
                     showSlide(currentSlide + 1);
                 }
             }
 
+            // Função para voltar ao slide anterior
             function prevSlide() {
                 if (currentSlide > 0) {
                     showSlide(currentSlide - 1);
                 }
             }
 
+            // Sincronizar slides com o áudio
             function handleAudioSync() {
                 const currentTime = audio.currentTime;
 
@@ -185,7 +193,8 @@
                 }
             }
 
-            function handlePostMessage(event) {
+            // Lidar com mensagens recebidas do Google Sites (via postMessage)
+            window.addEventListener('message', (event) => {
                 if (!event.data || typeof event.data !== 'object') return;
 
                 if (event.data.type === 'slidesConfig') {
@@ -193,13 +202,13 @@
                     audio.src = event.data.audio || '';
                     renderSlides(slideData);
                 }
-            }
+            });
 
+            // Eventos dos botões de controle
             playPauseButton.addEventListener('click', playPauseAudio);
             nextButton.addEventListener('click', nextSlide);
             prevButton.addEventListener('click', prevSlide);
             audio.addEventListener('timeupdate', handleAudioSync);
-            window.addEventListener('message', handlePostMessage);
         });
     </script>
 </body>
