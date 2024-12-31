@@ -82,30 +82,15 @@
             const prevButton = document.getElementById('prev');
             const nextButton = document.getElementById('next');
             let currentSlide = 0;
-
-            // Carregar conteúdo diretamente do HTML externo
-            const slideData = Array.from(document.querySelectorAll('[data-slide]')).map((slide) => ({
-                content: slide.innerHTML,
-                time: parseFloat(slide.getAttribute('data-time')) || 0,
-            }));
-
-            // Criar slides dinâmicos
-            slideData.forEach((data, index) => {
-                const slideElement = document.createElement('div');
-                slideElement.className = 'slide';
-                if (index === 0) slideElement.classList.add('active');
-                slideElement.innerHTML = data.content;
-                slidesContainer.appendChild(slideElement);
-            });
-
-            const allSlides = document.querySelectorAll('.slide');
+            let slideData = [];
 
             function showSlide(index) {
+                const allSlides = document.querySelectorAll('.slide');
                 allSlides.forEach((slide, i) => {
                     slide.classList.toggle('active', i === index);
                 });
                 currentSlide = index;
-                if (slideData[index].time !== undefined) {
+                if (slideData[index]?.time !== undefined) {
                     audio.currentTime = slideData[index].time;
                 }
             }
@@ -122,7 +107,6 @@
                 }
             });
 
-            // Sincronizar com o áudio
             audio.addEventListener('timeupdate', () => {
                 const currentTime = audio.currentTime;
                 for (let i = slideData.length - 1; i >= 0; i--) {
@@ -135,14 +119,35 @@
                 }
             });
 
-            // Reiniciar quando o áudio terminar
             audio.addEventListener('ended', () => {
                 showSlide(0);
             });
 
-            // Configurar áudio
-            const audioSrc = document.querySelector('[data-audio]');
-            if (audioSrc) audio.src = audioSrc.getAttribute('data-audio');
+            // Receber dados via postMessage
+            window.addEventListener('message', (event) => {
+                if (!event.data || typeof event.data !== 'object') return;
+
+                if (event.data.type === 'slidesConfig') {
+                    slideData = event.data.slides || [];
+                    const audioSrc = event.data.audio || '';
+
+                    // Configurar áudio
+                    if (audioSrc) audio.src = audioSrc;
+
+                    // Criar slides dinamicamente
+                    slidesContainer.innerHTML = ''; // Limpar slides anteriores
+                    slideData.forEach((data, index) => {
+                        const slideElement = document.createElement('div');
+                        slideElement.className = 'slide';
+                        if (index === 0) slideElement.classList.add('active');
+                        slideElement.innerHTML = data.content;
+                        slidesContainer.appendChild(slideElement);
+                    });
+
+                    // Mostrar o primeiro slide
+                    showSlide(0);
+                }
+            });
         });
     </script>
 </body>
