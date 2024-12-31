@@ -3,22 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apresentação Sincronizada com Áudio</title>
-    
-    <!-- Inclusão do MathJax -->
-    <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
-    
+    <title>Apresentação Sincronizada</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+
+        #slidesContainer {
+            position: relative;
+            width: 100%;
+            height: 80%;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            background-color: #ffffff;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <div class="slide">
-        <p>Bem-vindo à Apresentação!</p>
-        <p>Exemplo de equação: \( E = mc^2 \)</p>
+    <div id="slidesContainer"></div>
+    <div class="controls">
+        <button id="prev">Anterior</button>
+        <button id="next">Próximo</button>
     </div>
+    <audio id="audio"></audio>
 
-    <div class="slide">
-        <p>Exemplo de outra equação: \(\int_{0}^{1} x^2 dx\)</p>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slidesContainer = document.getElementById('slidesContainer');
+            const audio = document.getElementById('audio');
+            const prevButton = document.getElementById('prev');
+            const nextButton = document.getElementById('next');
+            let currentSlide = 0;
+
+            // Carregar conteúdo diretamente do HTML externo
+            const slideData = Array.from(document.querySelectorAll('[data-slide]')).map((slide) => ({
+                content: slide.innerHTML,
+                time: parseFloat(slide.getAttribute('data-time')) || 0,
+            }));
+
+            // Criar slides dinâmicos
+            slideData.forEach((data, index) => {
+                const slideElement = document.createElement('div');
+                slideElement.className = 'slide';
+                if (index === 0) slideElement.classList.add('active');
+                slideElement.innerHTML = data.content;
+                slidesContainer.appendChild(slideElement);
+            });
+
+            const allSlides = document.querySelectorAll('.slide');
+
+            function showSlide(index) {
+                allSlides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                currentSlide = index;
+                if (slideData[index].time !== undefined) {
+                    audio.currentTime = slideData[index].time;
+                }
+            }
+
+            prevButton.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                if (currentSlide < slideData.length - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            });
+
+            // Sincronizar com o áudio
+            audio.addEventListener('timeupdate', () => {
+                const currentTime = audio.currentTime;
+                for (let i = slideData.length - 1; i >= 0; i--) {
+                    if (currentTime >= slideData[i].time) {
+                        if (currentSlide !== i) {
+                            showSlide(i);
+                        }
+                        break;
+                    }
+                }
+            });
+
+            // Reiniciar quando o áudio terminar
+            audio.addEventListener('ended', () => {
+                showSlide(0);
+            });
+
+            // Configurar áudio
+            const audioSrc = document.querySelector('[data-audio]');
+            if (audioSrc) audio.src = audioSrc.getAttribute('data-audio');
+        });
+    </script>
 </body>
 </html>
