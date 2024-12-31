@@ -201,6 +201,9 @@
                 if (slideData[index]?.time !== undefined) {
                     audio.currentTime = slideData[index].time;
                 }
+
+                // Forçar a renderização do MathJax após exibir o slide
+                MathJax.typeset(); // Renderiza expressões matemáticas
             }
 
             // Função para controlar play/pause do áudio
