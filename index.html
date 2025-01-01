@@ -93,24 +93,10 @@
             background-color: #333;
         }
 
-        /* Responsividade para telas menores */
         @media (max-width: 600px) {
             .icon {
                 width: 5vw;
                 height: 5vw;
-            }
-
-            .indicators .indicator {
-                width: 1.5vw;
-                height: 1.5vw;
-            }
-
-            .slide {
-                font-size: 6vw;
-            }
-
-            .slide p {
-                font-size: 4vw;
             }
         }
 
@@ -118,14 +104,6 @@
             .icon {
                 width: 7vw;
                 height: 7vw;
-            }
-
-            .slide {
-                font-size: 7vw;
-            }
-
-            .slide p {
-                font-size: 5vw;
             }
         }
     </style>
@@ -195,7 +173,6 @@
 
                 showSlide(0);
 
-                // Adiciona funcionalidade de navegação ao clicar nos indicadores
                 const indicators = document.querySelectorAll('.indicator');
                 indicators.forEach(indicator => {
                     indicator.addEventListener('click', () => {
@@ -226,6 +203,10 @@
                     playIcon.style.display = 'block';
                     pauseIcon.style.display = 'none';
                 } else {
+                    if (currentSlide === slideData.length - 1) {
+                        currentSlide = 0;
+                        showSlide(0);
+                    }
                     audio.play();
                     playIcon.style.display = 'none';
                     pauseIcon.style.display = 'block';
@@ -234,11 +215,23 @@
             }
 
             function nextSlide() {
-                if (currentSlide < slideData.length - 1) showSlide(currentSlide + 1);
+                if (currentSlide < slideData.length - 1) {
+                    showSlide(currentSlide + 1);
+                } else {
+                    stopPlayback();
+                }
             }
 
             function prevSlide() {
                 if (currentSlide > 0) showSlide(currentSlide - 1);
+            }
+
+            function stopPlayback() {
+                audio.pause();
+                audio.currentTime = 0;
+                isPlaying = false;
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
             }
 
             function handleAudioSync() {
@@ -248,6 +241,10 @@
                         if (currentSlide !== i) showSlide(i);
                         break;
                     }
+                }
+
+                if (audio.ended) {
+                    stopPlayback();
                 }
             }
 
@@ -265,6 +262,7 @@
             nextButton.addEventListener('click', nextSlide);
             prevButton.addEventListener('click', prevSlide);
             audio.addEventListener('timeupdate', handleAudioSync);
+            audio.addEventListener('ended', stopPlayback);
         });
     </script>
 </body>
