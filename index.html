@@ -39,14 +39,13 @@
         }
 
         .controls {
-    position: absolute; /* Não mais fixado na tela */
-    bottom: 0;
-    left: 0;
-    transform: none; /* Remove a centralização anterior */
-    display: flex;
-    justify-content: center; /* Centraliza horizontalmente os botões */
-    margin-top: 1vw; /* Espaçamento entre os slides e os controles */
-}
+            position: fixed;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 2vw;
+        }
 
 button {
     padding: 1vw;
