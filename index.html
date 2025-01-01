@@ -111,30 +111,32 @@ button:hover .icon {
     <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <div id="slidesContainer"></div>
-    <div class="indicators"></div>
-    <div class="controls">
-        <button id="prev">
-            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M11 18L5 12L11 6V18Z" fill="currentColor"/>
-                <path d="M19 18L13 12L19 6V18Z" fill="currentColor"/>
-            </svg>
-        </button>
-        <button id="playPause">
-            <svg id="playIcon" class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
-            </svg>
-            <svg id="pauseIcon" class="icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
-                <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
-            </svg>
-        </button>
-        <button id="next">
-            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M13 18L19 12L13 6V18Z" fill="currentColor"/>
-                <path d="M5 18L11 12L5 6V18Z" fill="currentColor"/>
-            </svg>
-        </button>
+    <div id="presentation">
+        <div id="slidesContainer"></div>
+        <div class="indicators"></div>
+        <div class="controls">
+            <button id="prev">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M11 18L5 12L11 6V18Z" fill="currentColor"/>
+                    <path d="M19 18L13 12L19 6V18Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <button id="playPause">
+                <svg id="playIcon" class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
+                </svg>
+                <svg id="pauseIcon" class="icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+                    <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+                </svg>
+            </button>
+            <button id="next">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M13 18L19 12L13 6V18Z" fill="currentColor"/>
+                    <path d="M5 18L11 12L5 6V18Z" fill="currentColor"/>
+                </svg>
+            </button>
+        </div>
     </div>
     <audio id="audio"></audio>
 
