@@ -14,7 +14,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #ffffff;
+            background-color: #f0f0f0;
         }
 
         .slide {
@@ -50,7 +50,7 @@
         button {
             padding: 1vw;
             cursor: pointer;
-            background-color: #ffffff;
+            background-color: #000000;
             border: none;
             border-radius: 0.5vw;
             transition: background-color 0.3s;
@@ -184,14 +184,25 @@
                     slideElement.innerHTML = slide.content;
                     slidesContainer.appendChild(slideElement);
 
-                    const indicator = document.createElement('div');
-                    indicator.className = 'indicator';
-                    if (index === 0) indicator.classList.add('active');
-                    indicator.setAttribute('data-slide', index);
-                    indicatorsContainer.appendChild(indicator);
+                    if (slide.indicator) {
+                        const indicator = document.createElement('div');
+                        indicator.className = 'indicator';
+                        if (index === 0) indicator.classList.add('active');
+                        indicator.setAttribute('data-slide', index);
+                        indicatorsContainer.appendChild(indicator);
+                    }
                 });
 
                 showSlide(0);
+
+                // Adiciona funcionalidade de navegação ao clicar nos indicadores
+                const indicators = document.querySelectorAll('.indicator');
+                indicators.forEach(indicator => {
+                    indicator.addEventListener('click', () => {
+                        const targetSlide = parseInt(indicator.getAttribute('data-slide'), 10);
+                        showSlide(targetSlide);
+                    });
+                });
             }
 
             function showSlide(index) {
